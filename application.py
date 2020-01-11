@@ -4,8 +4,6 @@ import re
 
 application = Flask(__name__)
 
-logger = logging.getLogger()
-
 @application.route('/')
 def hello():
     return "Hello"
