@@ -7,6 +7,10 @@ application = Flask(__name__)
 @application.route('/')
 def hello():
     return "Hello"
+    
+@application.route('/Login')
+def hello():
+    return json.dumps(["Status": "Success"])
 
 
 if __name__ == "__main__":
