@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+<script>
+var formdata = new FormData();
+formdata.append('Username', "Hatim1213");
+formdata.append("Password" , "Hakim");
+
+var xhr = new XMLHttpRequest();
+xhr.open("POST", '/login');
+xhr.addEventListener('load', ()=>{
+    var userData = xhr.response;
+    console.log(userData)
+});
+xhr.send(formdata);
+;
+</script>
+
+<body>
+
+</body>
+</html>
