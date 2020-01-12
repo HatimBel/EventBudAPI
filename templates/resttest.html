@@ -6,18 +6,33 @@
 </head>
 
 <script>
+/*
 var formdata = new FormData();
 formdata.append('Username', "Jessie1234");
-formdata.append("Liked" , "The Salsa");
+formdata.append("eventId" , "T324234234");
+formdata.append("eventName" , "The Salsa");
 
 var xhr = new XMLHttpRequest();
-xhr.open("POST", '/login');
+xhr.open("POST", '/likedEvent');
 xhr.addEventListener('load', ()=>{
     var userData = xhr.response;
     console.log(userData)
 });
 xhr.send(formdata);
+*/
 
+var formdata = new FormData();
+formdata.append('Location', "-75.69697435 45.38243786");
+formdata.append("max_range" , "50");
+
+
+var xhr = new XMLHttpRequest();
+xhr.open("POST", '/GetEvents');
+xhr.addEventListener('load', ()=>{
+    var userData = xhr.response;
+    console.log(userData)
+});
+xhr.send(formdata);
 
 </script>
 

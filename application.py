@@ -51,7 +51,7 @@ def createLogin():
     userInfo = request.form
     data = {"Username": userInfo["Username"], "Password": userInfo["Password"], "FullName": userInfo["FullName"],
             "Age": userInfo["Age"], "Bio": userInfo["Bio"], "Show": userInfo["Show"],
-            "Events_Liked": userInfo["Events_Liked"], "Picture": userInfo["Picture"], "Location": userInfo["Location"]}
+            "Events_Liked": {}, "Picture": userInfo["Picture"], "Location": userInfo["Location"]}
 
     try:
         db.child("users").child(data["Username"]).set(data)
@@ -61,7 +61,7 @@ def createLogin():
     return json.dumps({"Status": "Success"})
 
 
-@application.route('/GetEvents')
+@application.route('/GetEvents', methods=['GET', 'POST'])
 def get_Events():
     filters= request.form
 
@@ -82,7 +82,7 @@ def get_Events():
     if filters['category'] == None:
 
         for event in phq.events.search(within=("{0}km@{1},{2}").format(distance, lat, lon)):
-            responseDict[event.title] = {"Description": event.description, "Category": event.category, "Category": event.category,
+            responseDict[event.title] = {"Description": event.description, "Category": event.category,
                                          "EventID": event.id, "Location": event.location, "Start Date": event.start.strftime('%Y-%m-%d')}
 
         return json.dumps(responseDict)
@@ -97,15 +97,20 @@ def get_Events():
 def likedEvent():
     credentials = request.form
 
+    print(db.child("users").child(credentials["Username"]).child("Events_Liked"))
+
+   # user = db.child("users").child(credentials["Username"]).child("Events_Liked").set(
+    #    {credentials["eventId"]: credentials["Name"]})
+
     try:
-        user = db.child("users").child(credentials["Username"])
-        user.update({"Events_Liked": credentials["Liked_Event"]})
+        user = db.child("users").child(credentials["Username"]).child("Events_Liked").set({credentials["eventId"]: credentials["Name"]})
 
         return json.dumps({'Status': 'Success'})
     except:
         return json.dumps({'Status': 'Error'})
 
     return json.dumps({'Status': 'Error'})
+
 
 
 if __name__ == "__main__":
