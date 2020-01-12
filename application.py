@@ -11,11 +11,11 @@ phq = Client(access_token=API_TOKEN)
 application = Flask(__name__)
 
 config = {
-  "apiKey": "AIzaSyBto2Zu9RmCHCH32a5WERS67iERDP1e4YU",
-  "authDomain": "eventbud-1e7fc.firebaseapp.com",
-  "databaseURL": "https://eventbud-1e7fc.firebaseio.com",
-  "storageBucket": "eventbud-1e7fc.appspot.com",
-  "serviceAccount": "eventbud-1e7fc-firebase-adminsdk-k2cgs-3b3094e9f8.json"
+    "apiKey": "AIzaSyBto2Zu9RmCHCH32a5WERS67iERDP1e4YU",
+    "authDomain": "eventbud-1e7fc.firebaseapp.com",
+    "databaseURL": "https://eventbud-1e7fc.firebaseio.com",
+    "storageBucket": "eventbud-1e7fc.appspot.com",
+    "serviceAccount": "eventbud-1e7fc-firebase-adminsdk-k2cgs-3b3094e9f8.json"
 }
 
 firebase = pyrebase.initialize_app(config)
@@ -23,23 +23,23 @@ auth = firebase.auth()
 user = auth.sign_in_with_email_and_password("h.belhadjhamida@queensu.ca", "HelloWorld")
 db = firebase.database()
 
+
 @application.route('/')
 def hello():
-
     return render_template("resttest.html")
-    
+
+
 @application.route('/login', methods=['GET', 'POST'])
 def login():
-
-
     credentials = request.form
 
-    all_users = db.child("users").get()
-    for user in all_users.each():
+    try:
+        user = (db.child("users").get().val())[credentials['Username']]
 
-        if credentials['Password'] == user.val()['Password'] and credentials['Username'] == user.val()['Username']:
-            return json.dumps({'Status': 'Success', 'Data': user.val()})
-
+        if credentials['Password'] == user['Password']:
+            return json.dumps({'Status': 'Success', 'Data': user})
+    except:
+        return json.dumps({'Status': 'Error'})
 
     return json.dumps({'Status': 'Error'})
 
@@ -47,46 +47,64 @@ def login():
 @application.route('/CreateLogin', methods=['GET', 'POST'])
 def createLogin():
     userInfo = request.form
-    data = {"Username": userInfo["Username"], "Password": userInfo["Password"],
-            "Age": userInfo["Age"], "Artists": userInfo["Artists"], "Bio": userInfo["Bio"],
-            "Events_Liked": userInfo["Events_Liked"]}
+    data = {"Username": userInfo["Username"], "Password": userInfo["Password"], "FullName": userInfo["FullName"],
+            "Age": userInfo["Age"], "Bio": userInfo["Bio"], "Show": userInfo["Show"],
+            "Events_Liked": userInfo["Events_Liked"], "Picture": userInfo["Picture"], "Location": userInfo["Location"]}
 
     try:
-        db.child("users").push(data)
+        db.child("users").child(data["Username"]).set(data)
     except:
         return json.dumps({"Status": "Error"})
 
-
     return json.dumps({"Status": "Success"})
+
 
 @application.route('/GetEvents')
 def get_Events():
+    # filters=request.form
+    filters = {'category': None, 'location': [174.776792, -36.847319, 15000]}
 
-    #filters=request.form
-    filters={'category':None,'location':[174.776792,-36.847319,15000]}
-
-    lat=filters['location'][0]
-    lon=filters['location'][1]
-    distance=filters['location'][2]
+    lat = filters['location'][0]
+    lon = filters['location'][1]
+    distance = filters['location'][2]
 
     responseDict = {}
 
     if filters['category'] == None:
 
-        for event in phq.events.search( within=("{0}km@{1},{2}").format(distance, lat, lon)):
-
-           responseDict[event.title] = {"Description":event.description, "Category":event.category, "Location": event.location, "Start Date": event.start.strftime('%Y-%m-%d')}
+        for event in phq.events.search(within=("{0}km@{1},{2}").format(distance, lat, lon)):
+            responseDict[event.title] = {"Description": event.description, "Category": event.category,
+                                         "Location": event.location, "Start Date": event.start.strftime('%Y-%m-%d')}
 
         return json.dumps(responseDict)
 
-
-    for event in phq.events.search(category=filters['category'],within=("{0}km@{1},{2}").format(distance,lat,lon)):
+    for event in phq.events.search(category=filters['category'], within=("{0}km@{1},{2}").format(distance, lat, lon)):
         responseDict[event.title] = {"Description": event.description, "Category": event.category,
                                      "Location": event.location, "Start Date": event.start.strftime('%Y-%m-%d')}
 
-
     return json.dumps(responseDict)
 
+@application.route('/likedEvent', methods=['GET', 'POST'])
+def likedEvent():
+    credentials = request.form
+    print("1WE ARE HERE")
+    print(credentials)
+    rint("2E ARE HERE")
+    print(db.child("users").child(credentials["Username"]))
+    rint("3WE ARE HERE")
+    print((db.child("users").get().val())[credentials['Username']])
+    rint("4WE ARE HERE")
+    try:
+        user = db.child("users").child(credentials["Username"])
+        userdb = (db.child("users").get().val())[credentials['Username']]
+
+        print("shits the bed")
+        user.update({"Events_Liked": userdb["Events_Liked"] + credentials["Liked_Event"]})
+        return json.dumps({'Status': 'Success'})
+    except:
+        return json.dumps({'Status': 'Error'})
+
+    return json.dumps({'Status': 'Error'})
 
 
 if __name__ == "__main__":

@@ -7,17 +7,18 @@
 
 <script>
 var formdata = new FormData();
-formdata.append('Username', "Hatim1213");
-formdata.append("Password" , "Hakim");
+formdata.append('Username', "Jessie1234");
+formdata.append("Liked_Event" , "The Salsa");
 
 var xhr = new XMLHttpRequest();
-xhr.open("POST", '/login');
+xhr.open("POST", '/likedEvent');
 xhr.addEventListener('load', ()=>{
     var userData = xhr.response;
     console.log(userData)
 });
 xhr.send(formdata);
-;
+
+
 </script>
 
 <body>
