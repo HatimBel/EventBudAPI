@@ -82,14 +82,14 @@ def get_Events():
     if filters['category'] == None:
 
         for event in phq.events.search(within=("{0}km@{1},{2}").format(distance, lat, lon)):
-            responseDict[event.title] = {"Description": event.description, "Category": event.category,
-                                         "Location": event.location, "Start Date": event.start.strftime('%Y-%m-%d')}
+            responseDict[event.title] = {"Description": event.description, "Category": event.category, "Category": event.category,
+                                         "EventID": event.id, "Location": event.location, "Start Date": event.start.strftime('%Y-%m-%d')}
 
         return json.dumps(responseDict)
 
     for event in phq.events.search(category=filters['category'], within=("{0}km@{1},{2}").format(distance, lat, lon)):
         responseDict[event.title] = {"Description": event.description, "Category": event.category,
-                                     "Location": event.location, "Start Date": event.start.strftime('%Y-%m-%d')}
+                                     "EventID": event.id, "Location": event.location, "Start Date": event.start.strftime('%Y-%m-%d')}
 
     return json.dumps(responseDict)
 
