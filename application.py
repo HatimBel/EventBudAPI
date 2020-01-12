@@ -2,6 +2,7 @@ from flask import Flask, request, render_template
 import json
 import re
 import pyrebase
+import time
 from predicthq import Client
 
 API_TOKEN = 'pnGTFgD7W5mKiMj3C4M7cdtxDGHu2E4vf6Kdn0du'
@@ -22,6 +23,7 @@ firebase = pyrebase.initialize_app(config)
 auth = firebase.auth()
 user = auth.sign_in_with_email_and_password("h.belhadjhamida@queensu.ca", "HelloWorld")
 db = firebase.database()
+user = auth.refresh(user['refreshToken'])
 
 
 @application.route('/')
@@ -87,19 +89,11 @@ def get_Events():
 @application.route('/likedEvent', methods=['GET', 'POST'])
 def likedEvent():
     credentials = request.form
-    print("1WE ARE HERE")
-    print(credentials)
-    rint("2E ARE HERE")
-    print(db.child("users").child(credentials["Username"]))
-    rint("3WE ARE HERE")
-    print((db.child("users").get().val())[credentials['Username']])
-    rint("4WE ARE HERE")
+
     try:
         user = db.child("users").child(credentials["Username"])
-        userdb = (db.child("users").get().val())[credentials['Username']]
+        user.update({"Events_Liked": credentials["Liked_Event"]})
 
-        print("shits the bed")
-        user.update({"Events_Liked": userdb["Events_Liked"] + credentials["Liked_Event"]})
         return json.dumps({'Status': 'Success'})
     except:
         return json.dumps({'Status': 'Error'})
