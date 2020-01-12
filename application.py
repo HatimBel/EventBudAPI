@@ -15,7 +15,7 @@ config = {
   "authDomain": "eventbud-1e7fc.firebaseapp.com",
   "databaseURL": "https://eventbud-1e7fc.firebaseio.com",
   "storageBucket": "eventbud-1e7fc.appspot.com",
-  "serviceAccount": "/Users/hatimbelhadjhamida/Desktop/EventsBud/eventbud-1e7fc-firebase-adminsdk-k2cgs-3b3094e9f8.json"
+  "serviceAccount": "eventbud-1e7fc-firebase-adminsdk-k2cgs-3b3094e9f8.json"
 }
 
 firebase = pyrebase.initialize_app(config)
