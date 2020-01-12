@@ -63,8 +63,15 @@ def createLogin():
 
 @application.route('/GetEvents')
 def get_Events():
-    # filters=request.form
-    filters = {'category': None, 'location': [174.776792, -36.847319, 15000]}
+    filters= request.form
+
+    loc = filters['location'].split(" ")
+
+    lat = float(loc[1])
+
+    lon = float(loc[0])
+
+    distance = int(filters['max_range'])
 
     lat = filters['location'][0]
     lon = filters['location'][1]

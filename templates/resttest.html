@@ -8,10 +8,10 @@
 <script>
 var formdata = new FormData();
 formdata.append('Username', "Jessie1234");
-formdata.append("Liked_Event" , "The Salsa");
+formdata.append("Liked" , "The Salsa");
 
 var xhr = new XMLHttpRequest();
-xhr.open("POST", '/likedEvent');
+xhr.open("POST", '/login');
 xhr.addEventListener('load', ()=>{
     var userData = xhr.response;
     console.log(userData)
