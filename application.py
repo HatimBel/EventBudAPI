@@ -65,7 +65,9 @@ def createLogin():
 def get_Events():
     filters= request.form
 
-    loc = filters['location'].split(" ")
+    print(filters)
+
+    loc = filters['Location'].split(" ")
 
     lat = float(loc[1])
 
@@ -73,13 +75,10 @@ def get_Events():
 
     distance = int(filters['max_range'])
 
-    lat = filters['location'][0]
-    lon = filters['location'][1]
-    distance = filters['location'][2]
 
     responseDict = {}
 
-    if filters['category'] == None:
+    if filters.get('category') == None:
 
         for event in phq.events.search(within=("{0}km@{1},{2}").format(distance, lat, lon)):
             responseDict[event.title] = {"Description": event.description, "Category": event.category,
