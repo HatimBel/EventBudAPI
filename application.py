@@ -92,7 +92,7 @@ def get_Events():
     return json.dumps(responseDict)
 
 @application.route('/LikeEvent', methods=['GET', 'POST'])
-def likedEvent():
+def likeEvent():
     credentials = request.form
 
     try:
@@ -105,7 +105,7 @@ def likedEvent():
     return json.dumps({'Status': 'Error'})
 
 @application.route('/UnLikeEvent', methods=['GET', 'POST'])
-def likedEvent():
+def UnLikeEvent():
     credentials = request.form
 
     try:
