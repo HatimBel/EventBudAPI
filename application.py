@@ -3,7 +3,7 @@ import json
 import re
 import pyrebase
 from predicthq import Client
-import ticketpy
+#import ticketpy
 
 
 API_TOKEN = 'pnGTFgD7W5mKiMj3C4M7cdtxDGHu2E4vf6Kdn0du'
