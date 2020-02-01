@@ -115,7 +115,7 @@ def UnLikeEvent():
     credentials = request.form
 
     try:
-        db.child("users").child(credentials["Username"]).child("Events_Liked").child(credentials["eventId"]).set(credentials["eventName"]).remove()
+        db.child("users").child(credentials["Username"]).child("Events_Liked").child(credentials["eventId"]).remove()
 
         return json.dumps({'Status': 'Success'})
     except:
