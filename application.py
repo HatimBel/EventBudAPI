@@ -55,6 +55,7 @@ def createLogin():
     data = {"Username": userInfo["Username"], "Password": userInfo["Password"], "FullName": userInfo["FullName"],
             "Age": userInfo["Age"], "Bio": userInfo["Bio"], "Show": userInfo["Show"],
             "Events_Liked": {}, "Picture": userInfo["Picture"], "Location": userInfo["Location"]}
+
     db.child("users").child(data["Username"]).set(data)
     print(data)
 
@@ -106,12 +107,15 @@ def get_Event():
 
         event = phq.events.search(id = eventID['ID']).to_dict()['results'][0]
 
+        location = str(event['location'][0]) + " " + str(event['location'][1])
+
         eventDate=str(event['start']).split(" ")
 
 
         responseDict[event['title']] = {"Description": event['description'].strip(), "Category": event['category'].strip(),
-                                    "EventID": event['id'].strip(), "Location": event['location'].strip(),
+                                    "EventID": event['id'].strip(), "Location": location,
                                     "Start Date": eventDate[0]}
+
 
     except:
         return json.dumps({'Status': 'Error'})
