@@ -2,7 +2,6 @@ from flask import Flask, request, render_template
 import json
 import re
 import pyrebase
-import numpy as np
 from predicthq import Client
 
 #import ticketpy
