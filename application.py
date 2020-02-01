@@ -92,7 +92,7 @@ def get_Events():
     return json.dumps(responseDict)
 
 @application.route('/LikeEvent', methods=['GET', 'POST'])
-def likeEvent():
+def likedEvent():
     credentials = request.form
 
     try:
