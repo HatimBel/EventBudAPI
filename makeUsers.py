@@ -29,7 +29,7 @@ with open("sample1.bmp", "rb") as imageFile:
 data = {"Username": "Cathy1213", "Password": "hello", "FullName": "Cathy Yan",
             "Age": "19", "Bio": "And suddenly you know: It's time to start something new and trust the magic of beginnings.",
         "Show": "Barney",
-            "Events_Liked": {}, "Picture": str(encoded_string), "Location": "-76.49092499 44.2274085"}
+            "Events_Liked": {}, "Picture": encoded_string.decode("utf-8"), "Location": "-76.49092499 44.2274085"}
 
 URL = "http://Eventbud-env.whujfx5i63.us-east-2.elasticbeanstalk.com/CreateLogin"
 
