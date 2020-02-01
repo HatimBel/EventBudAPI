@@ -111,20 +111,19 @@ def getUsersAttending():
     id=event['eventId']
     users = {}
 
-    all_users = db.child("users").get()
+    try:
+        all_users = db.child("users").get()
 
-    for user in all_users.each():
+        for user in all_users.each():
 
-        try:
+                events_liked = user.val().get('Events_Liked')
 
-            events_liked = user.val().get('Events_Liked')
+                for event in events_liked:
+                    if id == event:
+                        users[user.key()] = user.val()
 
-            for event in events_liked:
-                if id == event:
-                    users[user.key()] = user.val()
-
-        except:
-            return json.dumps({'Status': 'Error'})
+    except:
+        return json.dumps({'Status': 'Error'})
 
     return json.dumps({'Status': 'Success', 'Data': users})
 

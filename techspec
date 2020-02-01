@@ -64,9 +64,15 @@ Success:
 {'Status': 'Success'}
 
 
-!!!UNDER DEVELOPMENT!!!
+
 Route: /GetUsersAttending
 
 ARGS:
 'eventId'
+
+Error:
+{'Status': 'Error'}
+
+Success:
+{'Status': 'Success', 'Data': users}
 
