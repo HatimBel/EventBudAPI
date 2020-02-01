@@ -2,7 +2,9 @@ from flask import Flask, request, render_template
 import json
 import re
 import pyrebase
+import numpy as np
 from predicthq import Client
+
 #import ticketpy
 
 
@@ -10,9 +12,6 @@ API_TOKEN = 'pnGTFgD7W5mKiMj3C4M7cdtxDGHu2E4vf6Kdn0du'
 
 phq = Client(access_token=API_TOKEN)
 
-
-#API_TOKEN = 'e3hl7xTOgg4kW4s9UY2WGqCWlmWKT8J5'
-#tm_client = ticketpy.ApiClient(API_TOKEN)
 
 application = Flask(__name__)
 
@@ -97,6 +96,22 @@ def get_Events():
 
     return json.dumps(responseDict)
 
+@application.route('/GetEventInfo', methods=['GET', 'POST'])
+def get_Event():
+    eventID = request.form
+
+    responseDict = {}
+
+    event = phq.events.search(id = eventID['ID']).to_dict()['results'][0]
+
+    eventDate=str(event['start']).split(" ")
+
+    responseDict[event['title']] = {"Description": event['description'].strip(), "Category": event['category'].strip(),
+                                "EventID": event['id'].strip(), "Location": event['location'].strip(),
+                                "Start Date": eventDate[0]}
+
+    return json.dumps(responseDict)
+
 @application.route('/LikeEvent', methods=['GET', 'POST'])
 def likedEvent():
     credentials = request.form
@@ -145,6 +160,8 @@ def getUsersAttending():
         return json.dumps({'Status': 'Error'})
 
     return json.dumps({'Status': 'Success', 'Data': users})
+
+
 
 if __name__ == "__main__":
     # Setting debug to True enables debug output. This line should be
