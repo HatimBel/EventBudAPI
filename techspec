@@ -1,0 +1,72 @@
+Route: /login
+
+ARGS:
+'Username'
+'Password'
+
+Return:
+
+Error:
+{'Status': 'Error'}
+
+Success:
+{'Status': 'Success', 'Data': user}
+
+
+
+Route: /CreateLogin
+
+ARGS:
+'Username'
+'Password'
+'FullName'
+'Age'
+'Bio'
+'Show'
+'Picture'
+'Location'
+
+Error
+{'Status': 'Error'}
+
+Success:
+{'Status': 'Success'}
+
+
+
+Route: /GetEvents
+
+ARGS:
+'Location' - Lat index 0 Long index 1
+'max_range'
+'category' - Optional
+
+Error:
+{'Status': 'Error'}
+
+Success:
+{"Description": event.description, "Category": event.category,
+"EventID": event.id, "Location": event.location, "Start Date": event.start.strftime('%Y-%m-%d')}
+
+
+
+Route: /LikedEvent
+
+ARGS:
+'Username'
+'eventId'
+'eventName'
+
+Error:
+{'Status': 'Error'}
+
+Success:
+{'Status': 'Success'}
+
+
+!!!UNDER DEVELOPMENT!!!
+Route: /GetUsersAttending
+
+ARGS:
+'eventId'
+

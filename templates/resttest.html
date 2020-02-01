@@ -6,7 +6,7 @@
 </head>
 
 <script>
-
+/*
 var formdata = new FormData();
 formdata.append('Username', "Jessie1234");
 formdata.append("eventId" , "T324234234");
@@ -20,7 +20,6 @@ xhr.addEventListener('load', ()=>{
 });
 xhr.send(formdata);
 
-/*
 var formdata = new FormData();
 formdata.append('Location', "-75.69697435 45.38243786");
 formdata.append("max_range" , "50");
@@ -35,6 +34,19 @@ xhr.addEventListener('load', ()=>{
 });
 xhr.send(formdata);
 */
+
+var formdata = new FormData();
+formdata.append("eventId", "34234");
+
+var xhr = new XMLHttpRequest();
+xhr.open("POST", '/GetUsersAttending');
+xhr.addEventListener('load', ()=>{
+    var userData = xhr.response;
+    console.log(userData)
+
+});
+xhr.send(formdata);
+
 
 </script>
 

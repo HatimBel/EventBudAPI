@@ -2,7 +2,6 @@ from flask import Flask, request, render_template
 import json
 import re
 import pyrebase
-import time
 from predicthq import Client
 
 API_TOKEN = 'pnGTFgD7W5mKiMj3C4M7cdtxDGHu2E4vf6Kdn0du'
@@ -73,7 +72,7 @@ def get_Events():
 
     lon = float(loc[0])
 
-    distance = int(filters['max_range'])
+    distance = filters['max_range']
 
 
     responseDict = {}
@@ -92,17 +91,12 @@ def get_Events():
 
     return json.dumps(responseDict)
 
-@application.route('/likedEvent', methods=['GET', 'POST'])
+@application.route('/LikedEvent', methods=['GET', 'POST'])
 def likedEvent():
     credentials = request.form
 
-    print(db.child("users").child(credentials["Username"]).child("Events_Liked"))
-
-   # user = db.child("users").child(credentials["Username"]).child("Events_Liked").set(
-    #    {credentials["eventId"]: credentials["Name"]})
-
     try:
-        user = db.child("users").child(credentials["Username"]).child("Events_Liked").set({credentials["eventId"]: credentials["Name"]})
+        db.child("users").child(credentials["Username"]).child("Events_Liked").child(credentials["eventId"]).set(credentials["eventName"])
 
         return json.dumps({'Status': 'Success'})
     except:
@@ -110,7 +104,26 @@ def likedEvent():
 
     return json.dumps({'Status': 'Error'})
 
+@application.route('/GetUsersAttending', methods=['GET', 'POST'])
+def getUsersAttending():
+    event = request.form
 
+    users = {}
+
+    print(db.child("users").get().val())
+
+    data = db.child("users").get().val()
+
+    for value in data:
+
+
+        for (id, val) in value['Events_Liked']:
+            if id == event['eventId']:
+                users[value['Username']] = value
+
+
+
+    return json.dumps(users)
 
 if __name__ == "__main__":
     # Setting debug to True enables debug output. This line should be
