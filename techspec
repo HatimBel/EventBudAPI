@@ -50,6 +50,21 @@ Success:
 
 
 
+Route: /GetEventInfo
+
+ARGS:
+'ID'
+
+Error:
+{'Status': 'Error'}
+
+Success:
+{'Status': 'Success', 'Data': {"Description": event['description'].strip(), "Category": event['category'].strip(),
+                                    "EventID": event['id'].strip(), "Location": event['location'].strip(),
+                                    "Start Date": eventDate[0]}}
+
+
+
 Route: /LikeEvent
 
 ARGS:

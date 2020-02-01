@@ -57,6 +57,8 @@ def createLogin():
             "Age": userInfo["Age"], "Bio": userInfo["Bio"], "Show": userInfo["Show"],
             "Events_Liked": {}, "Picture": userInfo["Picture"], "Location": userInfo["Location"]}
 
+    print(data)
+
     try:
         db.child("users").child(data["Username"]).set(data)
     except:
@@ -100,17 +102,23 @@ def get_Events():
 def get_Event():
     eventID = request.form
 
-    responseDict = {}
+    try:
+        responseDict = {}
 
-    event = phq.events.search(id = eventID['ID']).to_dict()['results'][0]
+        event = phq.events.search(id = eventID['ID']).to_dict()['results'][0]
 
-    eventDate=str(event['start']).split(" ")
+        eventDate=str(event['start']).split(" ")
 
-    responseDict[event['title']] = {"Description": event['description'].strip(), "Category": event['category'].strip(),
-                                "EventID": event['id'].strip(), "Location": event['location'].strip(),
-                                "Start Date": eventDate[0]}
 
-    return json.dumps(responseDict)
+        responseDict[event['title']] = {"Description": event['description'].strip(), "Category": event['category'].strip(),
+                                    "EventID": event['id'].strip(), "Location": event['location'].strip(),
+                                    "Start Date": eventDate[0]}
+
+    except:
+        return json.dumps({'Status': 'Error'})
+
+    return json.dumps({'Status': 'Success', 'Data': responseDict})
+
 
 @application.route('/LikeEvent', methods=['GET', 'POST'])
 def likedEvent():
@@ -119,11 +127,10 @@ def likedEvent():
     try:
         db.child("users").child(credentials["Username"]).child("Events_Liked").child(credentials["eventId"]).set(credentials["eventName"])
 
-        return json.dumps({'Status': 'Success'})
     except:
         return json.dumps({'Status': 'Error'})
 
-    return json.dumps({'Status': 'Error'})
+    return json.dumps({'Status': 'Success'})
 
 @application.route('/UnLikeEvent', methods=['GET', 'POST'])
 def UnLikeEvent():
