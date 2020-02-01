@@ -56,7 +56,7 @@ def createLogin():
     data = {"Username": userInfo["Username"], "Password": userInfo["Password"], "FullName": userInfo["FullName"],
             "Age": userInfo["Age"], "Bio": userInfo["Bio"], "Show": userInfo["Show"],
             "Events_Liked": {}, "Picture": userInfo["Picture"], "Location": userInfo["Location"]}
-
+    db.child("users").child(data["Username"]).set(data)
     print(data)
 
     try:
