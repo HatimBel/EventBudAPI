@@ -3,10 +3,16 @@ import json
 import re
 import pyrebase
 from predicthq import Client
+import ticketpy
 
+"""
 API_TOKEN = 'pnGTFgD7W5mKiMj3C4M7cdtxDGHu2E4vf6Kdn0du'
 
 phq = Client(access_token=API_TOKEN)
+"""
+
+API_TOKEN = 'e3hl7xTOgg4kW4s9UY2WGqCWlmWKT8J5'
+tm_client = ticketpy.ApiClient(API_TOKEN)
 
 application = Flask(__name__)
 
@@ -109,7 +115,7 @@ def UnLikeEvent():
     credentials = request.form
 
     try:
-        db.child("users").child(credentials["Username"]).child("Events_Liked").child(credentials["eventId"]).remove()
+        db.child("users").child(credentials["Username"]).child("Events_Liked").child(credentials["eventId"]).set(credentials["eventName"]).remove()
 
         return json.dumps({'Status': 'Success'})
     except:
