@@ -50,7 +50,7 @@ Success:
 
 
 
-Route: /LikedEvent
+Route: /LikeEvent
 
 ARGS:
 'Username'
