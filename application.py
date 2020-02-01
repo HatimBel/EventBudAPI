@@ -91,12 +91,25 @@ def get_Events():
 
     return json.dumps(responseDict)
 
-@application.route('/LikedEvent', methods=['GET', 'POST'])
+@application.route('/LikeEvent', methods=['GET', 'POST'])
 def likedEvent():
     credentials = request.form
 
     try:
         db.child("users").child(credentials["Username"]).child("Events_Liked").child(credentials["eventId"]).set(credentials["eventName"])
+
+        return json.dumps({'Status': 'Success'})
+    except:
+        return json.dumps({'Status': 'Error'})
+
+    return json.dumps({'Status': 'Error'})
+
+@application.route('/UnLikeEvent', methods=['GET', 'POST'])
+def likedEvent():
+    credentials = request.form
+
+    try:
+        db.child("users").child(credentials["Username"]).child("Events_Liked").child(credentials["eventId"]).remove()
 
         return json.dumps({'Status': 'Success'})
     except:

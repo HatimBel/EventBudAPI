@@ -63,6 +63,18 @@ Error:
 Success:
 {'Status': 'Success'}
 
+Route: /LikeEvent
+
+ARGS:
+'Username'
+'eventId'
+
+Error:
+{'Status': 'Error'}
+
+Success:
+{'Status': 'Success'}
+
 
 
 Route: /GetUsersAttending
