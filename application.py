@@ -106,24 +106,27 @@ def likedEvent():
 
 @application.route('/GetUsersAttending', methods=['GET', 'POST'])
 def getUsersAttending():
-    event = request.form
 
+    event = request.form
+    id=event['eventId']
     users = {}
 
-    print(db.child("users").get().val())
+    all_users = db.child("users").get()
 
-    data = db.child("users").get().val()
+    for user in all_users.each():
 
-    for value in data:
+        try:
 
+            events_liked = user.val().get('Events_Liked')
 
-        for (id, val) in value['Events_Liked']:
-            if id == event['eventId']:
-                users[value['Username']] = value
+            for event in events_liked:
+                if id == event:
+                    users[user.key()] = user.val()
 
+        except:
+            return json.dumps({'Status': 'Error'})
 
-
-    return json.dumps(users)
+    return json.dumps({'Status': 'Success', 'Data': users})
 
 if __name__ == "__main__":
     # Setting debug to True enables debug output. This line should be
