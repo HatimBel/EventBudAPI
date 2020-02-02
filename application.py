@@ -54,7 +54,7 @@ def createLogin():
     userInfo = request.form
     data = {"Username": userInfo["Username"], "Password": userInfo["Password"], "FullName": userInfo["FullName"],
             "Age": userInfo["Age"], "Bio": userInfo["Bio"], "Show": userInfo["Show"],
-            "Events_Liked": {}, "Picture": userInfo["Picture"], "Location": userInfo["Location"], "Channels": {}, "Questionnaire": userInfo["Questionnaire"]}
+            "Events_Liked": 0, "Picture": userInfo["Picture"], "Location": userInfo["Location"], "Channels": 0, "Questionnaire": userInfo["Questionnaire"]}
 
     db.child("users").child(data["Username"]).set(data)
     print(data)
