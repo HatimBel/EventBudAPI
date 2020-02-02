@@ -202,7 +202,6 @@ def NewChannel():
 
     try:
         db.child("users").child(user["Username"]).child("Channel").child(user["ChannelID"]).set(user["ChatBuddy"])
-        db.child("users").child(user["ChatBuddy"]).child("Channel").child(user["ChannelID"]).set(user["Username"])
 
     except:
 
