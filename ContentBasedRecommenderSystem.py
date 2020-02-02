@@ -13,7 +13,7 @@ def rating(user, userList):
     u1 = np.array(convertStrList(user))
     u2 = np.array(convertStrList(userList))
 
-    w = np.array([10, 5, 15, 10, 25, 10, 5, 5, 10, 5])
+    w = np.array([5,10,10,15,7,13,15,10,10,5])
 
     u4 = ((u1 == u2).astype(int) * w.transpose()) / np.sum(w)
 

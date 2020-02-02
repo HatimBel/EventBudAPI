@@ -24,9 +24,11 @@ xhr.send(formdata);
 */
 
 var formdata = new FormData();
+formdata.append("ChatBuddy", "emusk");
 formdata.append("Username", "mzuck");
+formdata.append("ChannelID", "mzuck_emusk");
 var xhr = new XMLHttpRequest();
-xhr.open("POST", '/GetUser');
+xhr.open("POST", '/NewChannel');
 xhr.addEventListener('load', ()=>{
     var userData = xhr.response;
     console.log(userData)
