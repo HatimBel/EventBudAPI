@@ -3,6 +3,8 @@ import json
 import re
 import pyrebase
 from predicthq import Client
+import numpy as np
+
 
 #import ticketpy
 
@@ -54,7 +56,7 @@ def createLogin():
     userInfo = request.form
     data = {"Username": userInfo["Username"], "Password": userInfo["Password"], "FullName": userInfo["FullName"],
             "Age": userInfo["Age"], "Bio": userInfo["Bio"], "Show": userInfo["Show"],
-            "Events_Liked": {}, "Picture": userInfo["Picture"], "Location": userInfo["Location"]}
+            "Events_Liked": {}, "Picture": userInfo["Picture"], "Location": userInfo["Location"], "Questionnaire": userInfo["Questionnaire"]}
 
     db.child("users").child(data["Username"]).set(data)
     print(data)
@@ -153,6 +155,8 @@ def getUsersAttending():
 
     event = request.form
     id=event['eventId']
+    username = event['Username']
+
     users = {}
 
     try:
@@ -169,7 +173,48 @@ def getUsersAttending():
     except:
         return json.dumps({'Status': 'Error'})
 
+    users = contentReccomendation(users, users[username]['Questionnaire'])
+
+    users.pop(username, None)
+
+    for key, value in users.items():
+
+        print(key)
+        print(value['Rating'])
+
     return json.dumps({'Status': 'Success', 'Data': users})
+
+
+
+def contentReccomendation(users, userQuestString):
+
+    for key, value in users.items():
+
+        users[key]['Rating'] = rating(userQuestString, value['Questionnaire'])
+
+    return users
+
+def rating(user, userList):
+
+    u1 = np.array(convertStrList(user))
+    u2 = np.array(convertStrList(userList))
+
+    w = np.array([10, 5, 15, 10, 25, 10, 5, 5, 10, 5])
+
+    u4 = ((u1 == u2).astype(int) * w.transpose()) / np.sum(w)
+
+    sum = np.sum(u4)
+
+    return sum
+
+
+def convertStrList(string):
+    int_list = []
+
+    for ch in str(string):
+        int_list.append(int(ch))
+
+    return  int_list
 
 
 

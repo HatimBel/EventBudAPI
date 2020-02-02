@@ -24,10 +24,10 @@ xhr.send(formdata);
 */
 
 var formdata = new FormData();
-formdata.append('ID', "HNUx6phxzkvHuX7Gb2");
-
+formdata.append("eventId", "8zx8DUB4y5RxXEnduJ");
+formdata.append("Username", "mzuck");
 var xhr = new XMLHttpRequest();
-xhr.open("POST", '/GetEventInfo');
+xhr.open("POST", '/GetUsersAttending');
 xhr.addEventListener('load', ()=>{
     var userData = xhr.response;
     console.log(userData)
