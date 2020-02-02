@@ -6,8 +6,6 @@ from predicthq import Client
 import numpy as np
 from ContentBasedRecommenderSystem import contentReccomendation
 
-#import ticketpy
-
 
 API_TOKEN = 'pnGTFgD7W5mKiMj3C4M7cdtxDGHu2E4vf6Kdn0du'
 
@@ -192,7 +190,7 @@ def getUser():
 
     except:
 
-        return {"Status":"Error"}
+        return json.dumps({"Status":"Error"})
 
     return json.dumps({"Status": "Success", "Data": user})
 
