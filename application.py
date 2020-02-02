@@ -4,7 +4,7 @@ import re
 import pyrebase
 from predicthq import Client
 import numpy as np
-
+from ContentBasedRecommenderSystem import contentReccomendation
 
 #import ticketpy
 
@@ -56,13 +56,14 @@ def createLogin():
     userInfo = request.form
     data = {"Username": userInfo["Username"], "Password": userInfo["Password"], "FullName": userInfo["FullName"],
             "Age": userInfo["Age"], "Bio": userInfo["Bio"], "Show": userInfo["Show"],
-            "Events_Liked": {}, "Picture": userInfo["Picture"], "Location": userInfo["Location"], "Questionnaire": userInfo["Questionnaire"]}
+            "Events_Liked": {}, "Picture": userInfo["Picture"], "Location": userInfo["Location"], "Channels": {}, "Questionnaire": userInfo["Questionnaire"]}
 
     db.child("users").child(data["Username"]).set(data)
     print(data)
 
     try:
         db.child("users").child(data["Username"]).set(data)
+
     except:
         return json.dumps({"Status": "Error"})
 
@@ -71,7 +72,7 @@ def createLogin():
 
 @application.route('/GetEvents', methods=['GET', 'POST'])
 def get_Events():
-    filters= request.form
+    filters = request.form
 
     print(filters)
 
@@ -150,6 +151,8 @@ def UnLikeEvent():
 
     return json.dumps({'Status': 'Error'})
 
+
+
 @application.route('/GetUsersAttending', methods=['GET', 'POST'])
 def getUsersAttending():
 
@@ -177,46 +180,36 @@ def getUsersAttending():
 
     users.pop(username, None)
 
-    for key, value in users.items():
-
-        print(key)
-        print(value['Rating'])
-
     return json.dumps({'Status': 'Success', 'Data': users})
 
 
+@application.route('/GetUser', methods=['GET', 'POST'])
+def getUser():
+    credentials = request.form
 
-def contentReccomendation(users, userQuestString):
+    try:
+        user = db.child("users").child(credentials["Username"]).get().val()
 
-    for key, value in users.items():
+    except:
 
-        users[key]['Rating'] = rating(userQuestString, value['Questionnaire'])
+        return {"Status":"Error"}
 
-    return users
-
-def rating(user, userList):
-
-    u1 = np.array(convertStrList(user))
-    u2 = np.array(convertStrList(userList))
-
-    w = np.array([10, 5, 15, 10, 25, 10, 5, 5, 10, 5])
-
-    u4 = ((u1 == u2).astype(int) * w.transpose()) / np.sum(w)
-
-    sum = np.sum(u4)
-
-    return sum
+    return json.dumps({"Status": "Success", "Data": user})
 
 
-def convertStrList(string):
-    int_list = []
 
-    for ch in str(string):
-        int_list.append(int(ch))
+@application.route('/NewChannel', methods=['GET', 'POST'])
+def NewChannel():
+    user = request.form
 
-    return  int_list
+    try:
+        db.child("users").child(user["Username"]).child("Channel").child(user["ChannelID"]).set(user["ChatBuddy"])
 
+    except:
 
+        return json.dumps({"Status":"Error"})
+
+    return json.dumps({"Status":"Success"})
 
 if __name__ == "__main__":
     # Setting debug to True enables debug output. This line should be

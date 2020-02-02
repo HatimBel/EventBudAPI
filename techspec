@@ -64,7 +64,6 @@ Success:
                                     "Start Date": eventDate[0]}}
 
 
-
 Route: /LikeEvent
 
 ARGS:
@@ -77,6 +76,8 @@ Error:
 
 Success:
 {'Status': 'Success'}
+
+
 
 Route: /LikeEvent
 
@@ -103,8 +104,38 @@ Error:
 Success:
 {'Status': 'Success', 'Data': users}
 
+
+
+Route: /GetUser
+
+ARGS:
+'Username'
+
+Error:
+{'Status': 'Error'}
+
+Success:
+{'Status': 'Success', 'Data': user}
+
+
+
+Route: /NewChannel
+
+ARGS:
+"Username"
+"ChannelID"
+"ChatBuddy"
+
+Error:
+{'Status': 'Error'}
+
+Success:
+{'Status': 'Success'}
+
+
+
 USER DATA:
 
-{"Username": userInfo["Username"], "Password": userInfo["Password"], "FullName": userInfo["FullName"],
-            "Age": userInfo["Age"], "Bio": userInfo["Bio"], "Show": userInfo["Show"],
+{"Username": userInfo["Username"], "Password": userInfo["Password"], "FullName": userInfo["FullName"], "Channel": {ChannelName:User},
+            "Age": userInfo["Age"], "Bio": userInfo["Bio"], "Show": userInfo["Show"], "Questionnaire": userInfo["Questionnaire"],
             "Events_Liked": {}, "Picture": userInfo["Picture"], "Location": userInfo["Location"]}
