@@ -42,7 +42,8 @@ def login():
         user = (db.child("users").get().val())[credentials['Username']]
 
         if credentials['Password'] == user['Password']:
-            return json.dumps({'Status': 'Success', 'Data': user})
+           # return json.dumps({'Status': 'Success', 'Data': user})
+           return json.dumps({'Status': 'Success'})
     except:
         return json.dumps({'Status': 'Error'})
 
