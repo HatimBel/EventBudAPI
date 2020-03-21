@@ -52,10 +52,14 @@ def login():
 @application.route('/CreateLogin', methods=['GET', 'POST'])
 def createLogin():
     userInfo = request.form
+    """
     data = {"Username": userInfo["Username"], "Password": userInfo["Password"], "FullName": userInfo["FullName"],
             "Age": userInfo["Age"], "Bio": userInfo["Bio"], "Show": userInfo["Show"],
             "Events_Liked": 0, "Picture": userInfo["Picture"], "Location": userInfo["Location"], "Channels": 0, "Questionnaire": userInfo["Questionnaire"]}
-
+    """
+    
+    data = {"Username": userInfo["Username"], "Password": userInfo["Password"], "Book_Read": 0}
+    
     db.child("users").child(data["Username"]).set(data)
     print(data)
 
