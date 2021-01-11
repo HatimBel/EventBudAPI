@@ -10,7 +10,7 @@ API developed for the EventBud mobile app, to fetch user data, local events, and
 
 ## Endpoints
 
-Route: /login
+**Route: /login**
 
 ARGS:
 'Username'
@@ -25,8 +25,7 @@ Success:
 {'Status': 'Success', 'Data': user}
 
 
-
-Route: /CreateLogin
+**Route: /CreateLogin**
 
 ARGS:
 'Username'
