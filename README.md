@@ -44,8 +44,7 @@ Success:
 {'Status': 'Success'}
 
 
-
-Route: /GetEvents
+**Route: /GetEvents**
 
 ARGS:
 'Location' - Lat index 0 Long index 1
@@ -60,8 +59,7 @@ Success:
 "EventID": event.id, "Location": event.location, "Start Date": event.start.strftime('%Y-%m-%d')}
 
 
-
-Route: /GetEventInfo
+**Route: /GetEventInfo**
 
 ARGS:
 'ID'
@@ -75,7 +73,7 @@ Success:
                                     "Start Date": eventDate[0]}}
 
 
-Route: /LikeEvent
+**Route: /LikeEvent**
 
 ARGS:
 'Username'
@@ -89,8 +87,7 @@ Success:
 {'Status': 'Success'}
 
 
-
-Route: /LikeEvent
+**Route: /LikeEvent**
 
 ARGS:
 'Username'
@@ -103,8 +100,7 @@ Success:
 {'Status': 'Success'}
 
 
-
-Route: /GetUsersAttending
+**Route: /GetUsersAttending**
 
 ARGS:
 'eventId'
@@ -116,8 +112,7 @@ Success:
 {'Status': 'Success', 'Data': users}
 
 
-
-Route: /GetUser
+**Route: /GetUser**
 
 ARGS:
 'Username'
@@ -129,8 +124,7 @@ Success:
 {'Status': 'Success', 'Data': user}
 
 
-
-Route: /NewChannel
+**Route: /NewChannel**
 
 ARGS:
 "Username"
