@@ -15,11 +15,6 @@ phq = Client(access_token=API_TOKEN)
 application = Flask(__name__)
 
 config = {
-    "apiKey": "AIzaSyBto2Zu9RmCHCH32a5WERS67iERDP1e4YU",
-    "authDomain": "eventbud-1e7fc.firebaseapp.com",
-    "databaseURL": "https://eventbud-1e7fc.firebaseio.com",
-    "storageBucket": "eventbud-1e7fc.appspot.com",
-    "serviceAccount": "eventbud-1e7fc-firebase-adminsdk-k2cgs-3b3094e9f8.json"
 }
 
 firebase = pyrebase.initialize_app(config)
