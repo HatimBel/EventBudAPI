@@ -84,18 +84,14 @@ def get_Events():
 
 
     responseDict = {}
+    categories = filters['category'] if filters.get('category') is not None else \
+        "school-holidays,public-holidays,politics,conferences,expos,concerts,festivals,performing-arts,sports,community"
 
-    if filters.get('category') == None:
-
-        for event in phq.events.search(category="school-holidays,public-holidays,politics,conferences,expos,concerts,festivals,performing-arts,sports,community", within=("{0}km@{1},{2}").format(distance, lat, lon)):
-            responseDict[event.title] = {"Description": event.description, "Category": event.category,
-                                         "EventID": event.id, "Location": event.location, "Start Date": event.start.strftime('%Y-%m-%d')}
-
-        return json.dumps(responseDict)
-
-    for event in phq.events.search(category="school-holidays,public-holidays,politics,conferences,expos,concerts,festivals,performing-arts,sports,community", within=("{0}km@{1},{2}").format(distance, lat, lon)):
+    for event in phq.events.search(category=categories,
+                                   within=("{0}km@{1},{2}").format(distance, lat, lon)):
         responseDict[event.title] = {"Description": event.description, "Category": event.category,
-                                     "EventID": event.id, "Location": event.location, "Start Date": event.start.strftime('%Y-%m-%d')}
+                                     "EventID": event.id, "Location": event.location,
+                                     "Start Date": event.start.strftime('%Y-%m-%d')}
 
     return json.dumps(responseDict)
 
